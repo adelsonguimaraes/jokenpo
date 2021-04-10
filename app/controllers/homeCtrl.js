@@ -18,7 +18,16 @@ angular.module(module).controller('homeCtrl', function ($rootScope, $scope, auth
                     player: false,
                     jogada: null,
                     pontos: 0,
-                    adversarios: []
+                    adversarios: [],
+                    jogadas: {
+                        pedra: 0,
+                        papel: 0,
+                        tesoura: 0
+                    },
+                    insertJogada(jogada) {
+                        this.jogada = jogada; // inserindo a jogada
+                        this.jogadas[jogada]++; // contando jogada
+                    }
                 },
                 {
                     index: 1,
@@ -27,7 +36,16 @@ angular.module(module).controller('homeCtrl', function ($rootScope, $scope, auth
                     player: false,
                     jogada: null,
                     pontos: 0,
-                    adversarios: []
+                    adversarios: [],
+                    jogadas: {
+                        pedra: 0,
+                        papel: 0,
+                        tesoura: 0
+                    },
+                    insertJogada(jogada) {
+                        this.jogada = jogada; // inserindo a jogada
+                        this.jogadas[jogada]++; // contando jogada
+                    }
                 }
             ]
         }
@@ -44,7 +62,18 @@ angular.module(module).controller('homeCtrl', function ($rootScope, $scope, auth
             player: true,
             jogada: null,
             pontos: 0,
-            adversarios: []
+            adversarios: [],
+            jogadas: {
+                pedra: 0,
+                papel: 0,
+                tesoura: 0
+            },
+            insertJogada(jogada) {
+                this.jogadas[jogada]++; // contando jogada
+                localStorage.setItem('jogador', JSON.stringify(this)); // atizando
+
+                this.jogada = jogada; // inserindo a jogada
+            }
         };
         $scope.jogo.jogadores.push($scope.jogador);
         if ($scope.jogador!==null) {
@@ -109,7 +138,8 @@ angular.module(module).controller('homeCtrl', function ($rootScope, $scope, auth
     // função qunado o próprio jogador clica no botão de jogar
     $scope.jogando = function () {
         var index = $scope.jogador.index;
-        $scope.jogo.jogadores[index].jogada = $scope.btn;
+        $scope.jogo.jogadores[index].insertJogada($scope.btn);
+        // $scope.jogo.jogadores[index].jogada = $scope.btn;
         $interval.cancel(t);
         maquinasJogando();
         // console.log("JOGADA PLAYER", $scope.jogo.jogadores);
@@ -123,7 +153,8 @@ angular.module(module).controller('homeCtrl', function ($rootScope, $scope, auth
         var index = $scope.jogador.index;
         // caso acabe o tempo e a jogado do jogador ainda não estiver pronta o jogo força
         if ($scope.jogo.jogadores[index].jogada == null) {
-            $scope.jogo.jogadores[index].jogada = randomPlay();
+            $scope.jogo.jogadores[index].insertJogada(randomPlay());
+            // $scope.jogo.jogadores[index].jogada = randomPlay();
         }
         $interval.cancel(t);
         maquinasJogando();
