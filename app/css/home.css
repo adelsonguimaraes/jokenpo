@@ -1,0 +1,18 @@
+.home .time {
+    font-weight: bold;
+    color: brown;
+}
+.home td {
+    white-space: normal !important; 
+}
+
+.home .panel-flex {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    height: -webkit-fill-available;
+}
+
+.home .panel-flex .panel-body {
+    flex: 1;
+}
